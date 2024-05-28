@@ -24,29 +24,19 @@
     </div>
   </div>
   <div id="unity-fullscreen-button" style="display: none;"></div>
-
   <script>
-    // Call the JavaScript function to activate Unity audio
-    function activateUnityAudio() {
-      unityInstance.SendMessage('AudioManager', 'ActivateAudio');
+    function playUnityAudio() {
+      unityInstance.SendMessage('YourNamespace.YourAudioManager', 'PlayAudio'); // Adjust namespace and class name
     }
   </script>
-
-  <!-- Call the activateUnityAudio function in response to a touch event -->
-  <script>
-    document.addEventListener('touchstart', function () {
-      activateUnityAudio();
-    });
-  </script>
-
   <script>
     const hideFullScreenButton = "";
     const buildUrl = "Build";
-    const loaderUrl = buildUrl + "/evn_civic_final4_build.loader.js";
+    const loaderUrl = buildUrl + "/evn_civic_final8_build.loader.js";
     const config = {
-      dataUrl: buildUrl + "/evn_civic_final4_build.data",
-      frameworkUrl: buildUrl + "/evn_civic_final4_build.framework.js",
-      codeUrl: buildUrl + "/evn_civic_final4_build.wasm",
+      dataUrl: buildUrl + "/evn_civic_final8_build.data",
+      frameworkUrl: buildUrl + "/evn_civic_final8_build.framework.js",
+      codeUrl: buildUrl + "/evn_civic_final8_build.wasm",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "CIVIC",
