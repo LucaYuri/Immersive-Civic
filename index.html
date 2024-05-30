@@ -8,6 +8,23 @@
   <title>CIVIC</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
+  <style>
+    body,
+    html {
+      overflow-x: auto;
+      /* Aktiviert horizontales Scrollen */
+    }
+
+    #unity-container {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #unity-canvas {
+      display: block;
+    }
+  </style>
 </head>
 
 <body class="dark">
@@ -69,11 +86,17 @@
       function setAspectRatioAndRotation() {
         if (window.innerWidth > window.innerHeight) {
           // Wenn der Bildschirm im Querformat ist, Canvas setzen
+          canvas.style.transform = "";
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
         } else {
-          // Wenn der Bildschirm im Hochformat ist, Fehlermeldung anzeigen
-          alert("Bitte drehen Sie Ihr Gerät in das Querformat.");
+          // Wenn der Bildschirm im Hochformat ist, horizontales Scrollen ermöglichen
+          canvas.style.transform = "rotate(90deg)";
+          canvas.style.transformOrigin = "top left";
+          canvas.width = window.innerHeight;
+          canvas.height = window.innerWidth;
+          container.style.height = window.innerWidth + "px";
+          container.style.width = window.innerHeight + "px";
         }
       }
 
