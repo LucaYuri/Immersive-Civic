@@ -11,6 +11,9 @@
   <style>
     body,
     html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
       overflow-x: auto;
       /* Aktiviert horizontales Scrollen */
     }
@@ -19,16 +22,18 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
+      position: relative;
     }
 
     #unity-canvas {
       display: block;
+      position: absolute;
     }
   </style>
 </head>
 
 <body class="dark">
-  <div id="unity-container" class="unity-desktop">
+  <div id="unity-container">
     <canvas id="unity-canvas"></canvas>
   </div>
   <div id="loading-cover" style="display:none;">
@@ -57,81 +62,4 @@
 
     const container = document.querySelector("#unity-container");
     const canvas = document.querySelector("#unity-canvas");
-    const loadingCover = document.querySelector("#loading-cover");
-    const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
-    const progressBarFull = document.querySelector("#unity-progress-bar-full");
-    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
-    const spinner = document.querySelector('.spinner');
-
-    const canFullscreen = (function () {
-      for (const key of [
-        'exitFullscreen',
-        'webkitExitFullscreen',
-        'webkitCancelFullScreen',
-        'mozCancelFullScreen',
-        'msExitFullscreen',
-      ]) {
-        if (key in document) {
-          return true;
-        }
-      }
-      return false;
-    }());
-
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-      container.className = "unity-mobile";
-      config.devicePixelRatio = 1;
-
-      // Funktion zum Festlegen des Seitenverhältnisses und der Rotation nur im Querformat
-      function setAspectRatioAndRotation() {
-        if (window.innerWidth > window.innerHeight) {
-          // Wenn der Bildschirm im Querformat ist, Canvas setzen
-          canvas.style.transform = "";
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-        } else {
-          // Wenn der Bildschirm im Hochformat ist, horizontales Scrollen ermöglichen
-          canvas.style.transform = "rotate(90deg)";
-          canvas.style.transformOrigin = "top left";
-          canvas.width = window.innerHeight;
-          canvas.height = window.innerWidth;
-          container.style.height = window.innerWidth + "px";
-          container.style.width = window.innerHeight + "px";
-        }
-      }
-
-      // Beim Laden der Seite das Seitenverhältnis und die Rotation setzen
-      setAspectRatioAndRotation();
-
-      // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis und die Rotation neu setzen
-      window.addEventListener('resize', setAspectRatioAndRotation);
-    }
-
-    loadingCover.style.display = "";
-
-    const script = document.createElement("script");
-    script.src = loaderUrl;
-    script.onload = () => {
-      createUnityInstance(canvas, config, (progress) => {
-        spinner.style.display = "none";
-        progressBarEmpty.style.display = "";
-        progressBarFull.style.width = `${100 * progress}%`;
-      }).then((unityInstance) => {
-        loadingCover.style.display = "none";
-        if (canFullscreen) {
-          if (!hideFullScreenButton) {
-            fullscreenButton.style.display = "";
-          }
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }
-      }).catch((message) => {
-        alert(message);
-      });
-    };
-    document.body.appendChild(script);
-  </script>
-</body>
-
-</html>
+    const loadingCover = document.querySelector("#loading-cove
