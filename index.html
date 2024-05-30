@@ -11,11 +11,12 @@
   <style>
     body,
     html {
-      width: 100%;
-      height: 100%;
       margin: 0;
+      padding: 0;
       overflow-x: auto;
       /* Aktiviert horizontales Scrollen */
+      width: 100%;
+      height: 100%;
     }
 
     #unity-container {
@@ -28,6 +29,8 @@
     #unity-canvas {
       display: block;
       position: absolute;
+      top: 0;
+      left: 0;
     }
   </style>
 </head>
@@ -62,4 +65,84 @@
 
     const container = document.querySelector("#unity-container");
     const canvas = document.querySelector("#unity-canvas");
-    const loadingCover = document.querySelector("#loading-cove
+    const loadingCover = document.querySelector("#loading-cover");
+    const progressBarEmpty = document.querySelector("#unity-progress-bar-empty");
+    const progressBarFull = document.querySelector("#unity-progress-bar-full");
+    const fullscreenButton = document.querySelector("#unity-fullscreen-button");
+    const spinner = document.querySelector('.spinner');
+
+    const canFullscreen = (function () {
+      for (const key of [
+        'exitFullscreen',
+        'webkitExitFullscreen',
+        'webkitCancelFullScreen',
+        'mozCancelFullScreen',
+        'msExitFullscreen',
+      ]) {
+        if (key in document) {
+          return true;
+        }
+      }
+      return false;
+    }());
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      container.className = "unity-mobile";
+      config.devicePixelRatio = 1;
+
+      function setAspectRatioAndRotation() {
+        if (window.innerWidth < window.innerHeight) {
+          // Hochformat: Aktivieren Sie das horizontale Scrollen, indem Sie die Canvas breiter als das Fenster machen
+          canvas.style.width = `${window.innerHeight}px`;
+          canvas.style.height = `${window.innerWidth}px`;
+          canvas.style.transform = "rotate(90deg)";
+          canvas.style.transformOrigin = "top left";
+          container.style.width = `${window.innerHeight}px`;
+          container.style.height = `${window.innerWidth}px`;
+          container.style.overflowX = 'auto';
+        } else {
+          // Querformat: Normale Anzeige
+          canvas.style.width = "100%";
+          canvas.style.height = "100%";
+          canvas.style.transform = "";
+          container.style.width = "100vw";
+          container.style.height = "100vh";
+          container.style.overflowX = 'hidden';
+        }
+      }
+
+      // Beim Laden der Seite das Seitenverhältnis und die Rotation setzen
+      setAspectRatioAndRotation();
+
+      // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis und die Rotation neu setzen
+      window.addEventListener('resize', setAspectRatioAndRotation);
+    }
+
+    loadingCover.style.display = "";
+
+    const script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(canvas, config, (progress) => {
+        spinner.style.display = "none";
+        progressBarEmpty.style.display = "";
+        progressBarFull.style.width = `${100 * progress}%`;
+      }).then((unityInstance) => {
+        loadingCover.style.display = "none";
+        if (canFullscreen) {
+          if (!hideFullScreenButton) {
+            fullscreenButton.style.display = "";
+          }
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
+        }
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
+
+</html>
