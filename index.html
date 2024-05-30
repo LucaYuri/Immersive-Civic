@@ -67,17 +67,26 @@
     }
     loadingCover.style.display = "";
 
-    // Funktion zum Festlegen des Seitenverhältnisses auf 16:9
-    function setAspectRatio() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerWidth * (9 / 16); // Seitenverhältnis 16:9
+    // Funktion zum Festlegen des Seitenverhältnisses und der Rotation
+    function setAspectRatioAndRotation() {
+      if (window.innerHeight > window.innerWidth) {
+        // Wenn der Bildschirm im Hochformat ist, Canvas drehen
+        canvas.style.transform = "rotate(90deg)";
+        canvas.width = window.innerHeight;
+        canvas.height = window.innerWidth;
+      } else {
+        // Wenn der Bildschirm im Querformat ist, Canvas zurücksetzen
+        canvas.style.transform = "";
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     }
 
-    // Beim Laden der Seite das Seitenverhältnis setzen
-    setAspectRatio();
+    // Beim Laden der Seite das Seitenverhältnis und die Rotation setzen
+    setAspectRatioAndRotation();
 
-    // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis neu setzen
-    window.addEventListener('resize', setAspectRatio);
+    // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis und die Rotation neu setzen
+    window.addEventListener('resize', setAspectRatioAndRotation);
 
     const script = document.createElement("script");
     script.src = loaderUrl;
