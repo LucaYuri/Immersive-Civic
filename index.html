@@ -8,48 +8,12 @@
   <title>CIVIC</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100vw;
-      margin: 0;
-      overflow: hidden;
-      background-color: #000;
-      /* Hintergrundfarbe anpassen */
-    }
-
-    #unity-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    #rotateMessage {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      color: white;
-      font-size: 24px;
-      text-align: center;
-      padding-top: 50%;
-      z-index: 1000;
-    }
-  </style>
+  <!-- Meta-Tag für die Ausrichtung im Querformat hinzugefügt -->
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 </head>
 
 <body class="dark">
-  <div id="rotateMessage">
-    Bitte drehen Sie Ihr Gerät ins Querformat.
-  </div>
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas"></canvas>
   </div>
@@ -66,11 +30,11 @@
   <script>
     const hideFullScreenButton = "";
     const buildUrl = "Build";
-    const loaderUrl = buildUrl + "/evn_civic_querformat.loader.js";
+    const loaderUrl = buildUrl + "/evn_civic_querformat3.loader.js";
     const config = {
-      dataUrl: buildUrl + "/evn_civic_querformat.data",
-      frameworkUrl: buildUrl + "/evn_civic_querformat.framework.js",
-      codeUrl: buildUrl + "/evn_civic_querformat.wasm",
+      dataUrl: buildUrl + "/evn_civic_querformat3.data",
+      frameworkUrl: buildUrl + "/evn_civic_querformat3.framework.js",
+      codeUrl: buildUrl + "/evn_civic_querformat3.wasm",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "CIVIC",
@@ -128,21 +92,6 @@
       });
     };
     document.body.appendChild(script);
-
-    // JavaScript zur Ausrichtungskontrolle
-    function checkOrientation() {
-      if (window.innerHeight > window.innerWidth) {
-        document.getElementById('rotateMessage').style.display = 'block';
-        document.getElementById('unity-container').style.display = 'none';
-      } else {
-        document.getElementById('rotateMessage').style.display = 'none';
-        document.getElementById('unity-container').style.display = 'flex';
-      }
-    }
-
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('load', checkOrientation);
-    checkOrientation(); // Initial check on load
   </script>
 </body>
 
