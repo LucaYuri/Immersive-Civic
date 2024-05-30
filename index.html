@@ -64,29 +64,27 @@
     if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       container.className = "unity-mobile";
       config.devicePixelRatio = 1;
-    }
-    loadingCover.style.display = "";
 
-    // Funktion zum Festlegen des Seitenverhältnisses und der Rotation
-    function setAspectRatioAndRotation() {
-      if (window.innerHeight > window.innerWidth) {
-        // Wenn der Bildschirm im Hochformat ist, Canvas drehen
-        canvas.style.transform = "rotate(90deg)";
-        canvas.width = window.innerHeight;
-        canvas.height = window.innerWidth;
-      } else {
-        // Wenn der Bildschirm im Querformat ist, Canvas zurücksetzen
-        canvas.style.transform = "";
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+      // Funktion zum Festlegen des Seitenverhältnisses und der Rotation nur im Querformat
+      function setAspectRatioAndRotation() {
+        if (window.innerWidth > window.innerHeight) {
+          // Wenn der Bildschirm im Querformat ist, Canvas setzen
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        } else {
+          // Wenn der Bildschirm im Hochformat ist, Fehlermeldung anzeigen
+          alert("Bitte drehen Sie Ihr Gerät in das Querformat.");
+        }
       }
+
+      // Beim Laden der Seite das Seitenverhältnis und die Rotation setzen
+      setAspectRatioAndRotation();
+
+      // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis und die Rotation neu setzen
+      window.addEventListener('resize', setAspectRatioAndRotation);
     }
 
-    // Beim Laden der Seite das Seitenverhältnis und die Rotation setzen
-    setAspectRatioAndRotation();
-
-    // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis und die Rotation neu setzen
-    window.addEventListener('resize', setAspectRatioAndRotation);
+    loadingCover.style.display = "";
 
     const script = document.createElement("script");
     script.src = loaderUrl;
