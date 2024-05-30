@@ -8,9 +8,6 @@
   <title>CIVIC</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
-  <!-- Meta-Tag für die Ausrichtung im Querformat hinzugefügt -->
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 </head>
 
 <body class="dark">
@@ -69,6 +66,18 @@
       config.devicePixelRatio = 1;
     }
     loadingCover.style.display = "";
+
+    // Funktion zum Festlegen des Seitenverhältnisses auf 16:9
+    function setAspectRatio() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerWidth * (9 / 16); // Seitenverhältnis 16:9
+    }
+
+    // Beim Laden der Seite das Seitenverhältnis setzen
+    setAspectRatio();
+
+    // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis neu setzen
+    window.addEventListener('resize', setAspectRatio);
 
     const script = document.createElement("script");
     script.src = loaderUrl;
