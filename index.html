@@ -22,7 +22,8 @@
     #unity-container {
       width: 100vw;
       height: 100vh;
-      overflow: hidden;
+      overflow-x: auto;
+      /* Aktiviert horizontales Scrollen im Container */
       position: relative;
     }
 
@@ -90,32 +91,27 @@
       container.className = "unity-mobile";
       config.devicePixelRatio = 1;
 
-      function setAspectRatioAndRotation() {
+      function setCanvasSize() {
         if (window.innerWidth < window.innerHeight) {
-          // Hochformat: Aktivieren Sie das horizontale Scrollen, indem Sie die Canvas breiter als das Fenster machen
+          // Hochformat: Canvas breiter als das Fenster machen, um horizontales Scrollen zu ermöglichen
           canvas.style.width = `${window.innerHeight}px`;
           canvas.style.height = `${window.innerWidth}px`;
-          canvas.style.transform = "rotate(90deg)";
-          canvas.style.transformOrigin = "top left";
           container.style.width = `${window.innerHeight}px`;
           container.style.height = `${window.innerWidth}px`;
-          container.style.overflowX = 'auto';
         } else {
           // Querformat: Normale Anzeige
           canvas.style.width = "100%";
           canvas.style.height = "100%";
-          canvas.style.transform = "";
           container.style.width = "100vw";
           container.style.height = "100vh";
-          container.style.overflowX = 'hidden';
         }
       }
 
-      // Beim Laden der Seite das Seitenverhältnis und die Rotation setzen
-      setAspectRatioAndRotation();
+      // Beim Laden der Seite die Canvas-Größe setzen
+      setCanvasSize();
 
-      // Wenn das Fenster neu dimensioniert wird, das Seitenverhältnis und die Rotation neu setzen
-      window.addEventListener('resize', setAspectRatioAndRotation);
+      // Wenn das Fenster neu dimensioniert wird, die Canvas-Größe neu setzen
+      window.addEventListener('resize', setCanvasSize);
     }
 
     loadingCover.style.display = "";
