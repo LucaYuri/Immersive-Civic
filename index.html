@@ -9,42 +9,47 @@
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
   <style>
-    body,
-    html {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: black;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      overflow: hidden;
+      background-color: #000;
+      /* Hintergrundfarbe anpassen */
     }
 
-    #gameContainer {
+    #unity-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
       height: 100%;
     }
 
-    #landscape-message {
+    #rotateMessage {
       display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      font-size: 20px;
-      background: rgba(0, 0, 0, 0.8);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
       color: white;
-      padding: 20px;
-      border-radius: 10px;
+      font-size: 24px;
+      text-align: center;
+      padding-top: 50%;
+      z-index: 1000;
     }
   </style>
-
 </head>
 
 <body class="dark">
+  <div id="rotateMessage">
+    Bitte drehen Sie Ihr Gerät ins Querformat.
+  </div>
   <div id="unity-container" class="unity-desktop">
     <canvas id="unity-canvas"></canvas>
   </div>
@@ -61,11 +66,11 @@
   <script>
     const hideFullScreenButton = "";
     const buildUrl = "Build";
-    const loaderUrl = buildUrl + "/evn_civic_final_smaller canvas.loader.js";
+    const loaderUrl = buildUrl + "/evn_civic_querformat.loader.js";
     const config = {
-      dataUrl: buildUrl + "/evn_civic_final_smaller canvas.data",
-      frameworkUrl: buildUrl + "/evn_civic_final_smaller canvas.framework.js",
-      codeUrl: buildUrl + "/evn_civic_final_smaller canvas.wasm",
+      dataUrl: buildUrl + "/evn_civic_querformat.data",
+      frameworkUrl: buildUrl + "/evn_civic_querformat.framework.js",
+      codeUrl: buildUrl + "/evn_civic_querformat.wasm",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
       productName: "CIVIC",
@@ -123,30 +128,21 @@
       });
     };
     document.body.appendChild(script);
-  </script>
-  <script>
+
+    // JavaScript zur Ausrichtungskontrolle
     function checkOrientation() {
       if (window.innerHeight > window.innerWidth) {
-        document.getElementById('landscape-message').style.display = 'block';
-        document.getElementById('gameContainer').style.display = 'none';
+        document.getElementById('rotateMessage').style.display = 'block';
+        document.getElementById('unity-container').style.display = 'none';
       } else {
-        document.getElementById('landscape-message').style.display = 'none';
-        document.getElementById('gameContainer').style.display = 'block';
+        document.getElementById('rotateMessage').style.display = 'none';
+        document.getElementById('unity-container').style.display = 'flex';
       }
     }
 
     window.addEventListener('resize', checkOrientation);
     window.addEventListener('load', checkOrientation);
-
-    // Unity-Loader-Skript laden und Spiel starten
-    var loaderScript = document.createElement('script');
-    loaderScript.src = "Build/UnityLoader.js";
-    loaderScript.onload = function () {
-      UnityLoader.instantiate("gameContainer", "Build/build.json");
-    };
-    document.body.appendChild(loaderScript);
   </script>
-
 </body>
 
 </html>
